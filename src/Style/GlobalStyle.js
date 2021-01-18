@@ -23,8 +23,6 @@ export default createGlobalStyle`
 
   }
   html,body, #root{
-    max-height:100vh;
-    max-width:100vw;
     background:var(--white);
   }
   *,button,input{

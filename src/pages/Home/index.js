@@ -1,47 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { Switch } from "antd";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import api from "./../../services/api";
 import Header from "./../../components/Header";
 import Hero from "./../../Assets/icones/heroi/noun_Superhero_2227044.png";
 import Heart from "./../../Assets/icones/heart/Path Copy 7.svg";
-import Heart2 from "./../../Assets/icones/heart/Path Copy 2@1,5x.svg";
 
-// import * as HeroesActions from "./../../store/ducks/Heroes/actions.js";
+import * as HeroesActions from "./../../store/ducks/Heroes/actions";
 
-import { Container, ContainerContent, ContainerBody } from './styles';
+import HeartIcon from "./../../components/HeartIcon";
+import { Container, ContainerContent, ContainerBody, ButtonLoadMore } from './styles';
 
 function Home() {
-  // const dispatch = useDispatch();
-  // const handleLoadHeroes = () => {
-  //   dispatch(HeroesActions.loadHeroes());
-  // };
-  const [heros, setHeros] = useState([]);
-  function getData() {
-    api.get(`http://gateway.marvel.com/v1/public/characters?orderBy=name&limit=50`)
-      .then(async function (response) {
-        const { data: { data: { results: myData } } } = response;
-        setHeros(myData);
-        console.log(myData)
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-  }
-  useEffect(() => {
-    // handleLoadHeroes();
-    getData();
-  }, []);
   const [toggle, setToggle] = useState(false);
+  const [limit, setLimit] = useState(20);
+  const [offset, setOffset] = useState(0);
+  const heroes = useSelector(state => state.Heroes);
+  const favorites = useSelector(state => state.Favorite);
+  const dispatch = useDispatch();
+  const handleLoadHeroes = (offset, limit, orderBy) => {
+    dispatch(HeroesActions.loadHeroesRequest(offset, limit, orderBy));
+    setOffset(offset + limit);
+  };
+
+
+  useEffect(() => {
+    handleLoadHeroes(offset, limit, 'name');
+    console.log("state, ", heroes);
+    console.log("favorites, ", favorites);
+  }, []);
   return (
     <Container>
       <Header />
       <ContainerContent toggle={toggle}>
         <div className="header">
           <div>
-            <p className="p-top">Encontrados 20 heróis</p>
+            <p className="p-top">Encontrados {offset} heróis</p>
           </div>
 
           <div className="content-top">
@@ -61,19 +55,23 @@ function Home() {
 
         <ContainerBody>
 
-          {heros.map((hero) => (
-            <div className="card">
-              <img src={`${hero.thumbnail.path}/landscape_amazing.${hero.thumbnail.extension}`} alt="teste" className="border" />
+          {heroes.map((heroes, index) => (
+            <div className="card" key={index}>
+              <img src={`${heroes.thumbnail.path}/landscape_amazing.${heroes.thumbnail.extension}`} alt="teste" className="border" />
               <div>
-                <p>{hero.name}</p>
-                <img src={Heart2} alt="icone coração" />
+                <p>{heroes.name}</p>
+                <HeartIcon heroe={heroes} />
               </div>
             </div>
           )
           )}
         </ContainerBody>
+        <ButtonLoadMore onClick={() => {
+          handleLoadHeroes(offset, limit, 'name');
+        }}>Carregar mais...</ButtonLoadMore>
+        <br />
       </ContainerContent>
-    </Container>
+    </Container >
   );
 }
 

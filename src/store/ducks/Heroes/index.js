@@ -5,10 +5,9 @@ const INITIAL_STATE = [];
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case type.LOAD_HEROES_REQUEST:
+    case type.LOAD_HEROES_SUCCESS:
       return produce(state, (draft) => {
-        console.log(draft, state)
-        draft.data;
+        return [...state, ...action.payload];
       });
     default:
       return state;
