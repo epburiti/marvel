@@ -1,16 +1,55 @@
-import { createStore, applyMiddleware } from 'redux';
+/* global __DEV__ */
+
+import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import rootReducer from './ducks/rootReducer';
+import { persistStore, persistCombineReducers } from 'redux-persist';
+import storage from 'redux-persist/es/storage';
+
 import rootSaga from './ducks/rootSaga';
 
-const sagaMiddleware = createSagaMiddleware();
+/* Reducers */
 
-const store = createStore(
+import Favorites from './ducks/Favorites';
+import Heroes from './ducks/Heroes';
+
+const reducers = {
+  Favorites,
+  Heroes,
+};
+
+/* Redux-Persist */
+
+const rootReducer = persistCombineReducers({
+  key: 'root',
+  storage,
+  blacklist: ["Heroes"]
+}, reducers);
+
+const middlewares = [];
+const enhancers = [];
+
+/* Saga */
+
+const sagaMonitor = null;
+const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
+
+middlewares.push(sagaMiddleware);
+enhancers.push(applyMiddleware(...middlewares));
+
+/* Create Store */
+
+// const createAppropriateStore = nu ? console.tron.createStore : createStore;
+
+export const store = createStore(
   rootReducer,
-  applyMiddleware(sagaMiddleware),
+  compose(...enhancers),
 );
 
-sagaMiddleware.run(rootSaga);
+/* Redux-Persist + Store */
 
-export default { store };
+export const persistor = persistStore(store);
+
+/* Run saga */
+
+sagaMiddleware.run(rootSaga);

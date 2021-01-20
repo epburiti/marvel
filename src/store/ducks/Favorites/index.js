@@ -1,21 +1,25 @@
 import type from './types';
 import produce from 'immer';
+import { REHYDRATE } from 'redux-persist/lib/constants';
 
 const INITIAL_STATE = [];
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+
     case type.ADD_FAVORITE_SUCCESS:
       return produce(state, (draft) => {
-        const indexOf = state.find((item) => item.id === action.heroe[0].id)
-        console.log(indexOf)
+        const indexOf = draft.find((item) => item.id === action.heroe[0].id)
         if (!indexOf) {
-          return [...state, ...action.heroe];
+          draft.push(action.heroe[0]);
         }
       });
     case type.REMOVE_FAVORITE_SUCCESS:
       return produce(state, (draft) => {
-        console.log('retira')
+        const indexOf = state.findIndex((item) => item.id === action.id.id)
+        if (indexOf !== -1) {
+          draft.splice(indexOf, 1);
+        }
 
       });
     default:

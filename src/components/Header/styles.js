@@ -11,10 +11,10 @@ export const Container = styled.div`
     text-transform:uppercase;
     font-weight:bold;
     color: var(--black1);
-    font-size: 2em;
+    font-size: 2.8rem;
   }
   p{
   color: var(--black2);
-  font-size: 1em;
+  font-size: 1.6rem;
   }
 `;

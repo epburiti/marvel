@@ -30,5 +30,12 @@ export default createGlobalStyle`
     background:none;
     margin:0;
   }
+  body {
+    font-size:1.6rem;
+  }
+  html {
+  /* a cada 1rem será considera 10px */
+  font-size: 62.5%;
+}
   
 `;

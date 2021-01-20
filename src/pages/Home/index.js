@@ -13,26 +13,38 @@ import { Container, ContainerContent, ContainerBody, ButtonLoadMore } from './st
 
 function Home() {
   const [toggle, setToggle] = useState(false);
+  const [toggleFavorite, setToggleFavorite] = useState(false);
   const [limit, setLimit] = useState(20);
   const [offset, setOffset] = useState(0);
-  const heroes = useSelector(state => state.Heroes);
-  const favorites = useSelector(state => state.Favorite);
+
   const dispatch = useDispatch();
+
+  const compare = (a, b) => {
+    if (a.name < b.name)
+      return -1;
+    if (a.name > b.name)
+      return 1;
+    return 0;
+  }
+
   const handleLoadHeroes = (offset, limit, orderBy) => {
     dispatch(HeroesActions.loadHeroesRequest(offset, limit, orderBy));
     setOffset(offset + limit);
   };
 
+  const favorites = useSelector((state) => state.Favorites);
+  const favoritesOrderned = useSelector((state) => state.Favorites.slice().sort(compare));
+  const heroes = useSelector(state => state.Heroes);
+  const heroesOrderned = useSelector(state => state.Heroes.slice().sort(compare)
+  );
 
   useEffect(() => {
-    handleLoadHeroes(offset, limit, 'name');
-    console.log("state, ", heroes);
-    console.log("favorites, ", favorites);
+    handleLoadHeroes(offset, limit, '-modified');
   }, []);
   return (
     <Container>
       <Header />
-      <ContainerContent toggle={toggle}>
+      <ContainerContent toggle={toggle} toggleFavorite={toggleFavorite}>
         <div className="header">
           <div>
             <p className="p-top">Encontrados {offset} heróis</p>
@@ -43,11 +55,16 @@ function Home() {
             <p>Ordernar por nome - A/Z</p>
             <Switch className="switcher" onClick={
               () => {
-                setToggle(!toggle)
+                setToggle(!toggle);
               }
             } />
             <img src={Heart} alt="icone coração" />
             <p>Somente favoritos</p>
+            <Switch className="switcher-favorite" onClick={
+              () => {
+                setToggleFavorite(!toggleFavorite)
+              }
+            } />
 
           </div>
         </div>
@@ -55,7 +72,8 @@ function Home() {
 
         <ContainerBody>
 
-          {heroes.map((heroes, index) => (
+
+          {(!toggleFavorite && !toggle) && heroes.map((heroes, index) => (
             <div className="card" key={index}>
               <img src={`${heroes.thumbnail.path}/landscape_amazing.${heroes.thumbnail.extension}`} alt="teste" className="border" />
               <div>
@@ -65,10 +83,45 @@ function Home() {
             </div>
           )
           )}
+          {(!toggleFavorite && toggle) && heroesOrderned.map((heroes, index) => (
+            <div className="card" key={index}>
+              <img src={`${heroes.thumbnail.path}/landscape_amazing.${heroes.thumbnail.extension}`} alt="teste" className="border" />
+              <div>
+                <p>{heroes.name}</p>
+                <HeartIcon heroe={heroes} />
+              </div>
+            </div>
+          )
+          )}
+          {(toggleFavorite && !toggle) && favorites.map((heroes, index) => (
+            <div className="card" key={index}>
+              <img src={`${heroes.thumbnail.path}/landscape_amazing.${heroes.thumbnail.extension}`} alt="teste" className="border" />
+              <div>
+                <p>{heroes.name}</p>
+                <HeartIcon heroe={heroes} />
+              </div>
+            </div>
+          )
+          )}
+          {(toggleFavorite && toggle) && favoritesOrderned.map((heroes, index) => (
+            <div className="card" key={index}>
+              <img src={`${heroes.thumbnail.path}/landscape_amazing.${heroes.thumbnail.extension}`} alt="teste" className="border" />
+              <div>
+                <p>{heroes.name}</p>
+                <HeartIcon heroe={heroes} />
+              </div>
+            </div>
+          )
+          )}
+
         </ContainerBody>
-        <ButtonLoadMore onClick={() => {
-          handleLoadHeroes(offset, limit, 'name');
-        }}>Carregar mais...</ButtonLoadMore>
+        {(heroes.length && !toggleFavorite) &&
+          <ButtonLoadMore onClick={() => {
+            handleLoadHeroes(offset, limit, '-modified');
+
+          }}>Carregar mais...</ButtonLoadMore>
+
+        }
         <br />
       </ContainerContent>
     </Container >

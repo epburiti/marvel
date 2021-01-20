@@ -10,3 +10,10 @@ export const loadHeroesSuccess = (object) => ({
   type: Types.LOAD_HEROES_SUCCESS,
   payload: object,
 });
+export const orderHeroes = (payload) => ({
+  type: Types.ORDER_BY_NAME,
+  payload
+});
+export const clearHeroes = () => ({
+  type: Types.CLEAR_HEROES,
+});

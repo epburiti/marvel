@@ -40,6 +40,13 @@ export const ContainerBody = styled.div`
     }
    
   }
+
+  @media(max-width:916px){
+    justify-content: space-around;
+  .header{
+    margin-top:50px;
+  }
+  }
 `;
 export const ContainerContent = styled.div`
   margin-top:5%;
@@ -48,11 +55,16 @@ export const ContainerContent = styled.div`
   .header{
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top:20px;
     .p-top{
       color: var(--black2);
     }
     .switcher{
     background-color:${props => props.toggle ? 'var(--red)' : 'var(--black2)'};
+  }
+    .switcher-favorite{
+    background-color:${props => props.toggleFavorite ? 'var(--red)' : 'var(--black2)'};
   }
   .content-top{
       display:flex;
