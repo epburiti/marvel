@@ -1,0 +1,9 @@
+
+const base = "@search";
+
+export default {
+  CHANGE_VALUE: `${base}/CHANGE_VALUE`,
+  SEARCH_HEROES_REQUEST: `${base}/SEARCH_HEROES_REQUEST`,
+  SEARCH_HEROES_SUCCESS: `${base}/SEARCH_HEROES_SUCCESS`,
+  SEARCH_HEROES_FAIL: `${base}/SEARCH_HEROES_FAIL`,
+};

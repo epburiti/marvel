@@ -12,10 +12,12 @@ import rootSaga from './ducks/rootSaga';
 
 import Favorites from './ducks/Favorites';
 import Heroes from './ducks/Heroes';
+import Search from './ducks/Search';
 
 const reducers = {
   Favorites,
   Heroes,
+  Search,
 };
 
 /* Redux-Persist */
@@ -23,7 +25,7 @@ const reducers = {
 const rootReducer = persistCombineReducers({
   key: 'root',
   storage,
-  blacklist: ["Heroes"]
+  blacklist: ["Heroes", "Search"]
 }, reducers);
 
 const middlewares = [];

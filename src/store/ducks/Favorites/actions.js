@@ -11,10 +11,6 @@ export const addFavoriteSuccess = (heroe) => ({
 });
 
 export const removeFavorite = (id) => ({
-  type: Types.REMOVE_FAVORITE_REQUEST,
+  type: Types.REMOVE_FAVORITE,
   id
-});
-export const removeFavoriteSuccess = (id) => ({
-  type: Types.REMOVE_FAVORITE_SUCCESS,
-  id: id
 });

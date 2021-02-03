@@ -14,9 +14,9 @@ const reducer = (state = INITIAL_STATE, action) => {
           draft.push(action.heroe[0]);
         }
       });
-    case type.REMOVE_FAVORITE_SUCCESS:
+    case type.REMOVE_FAVORITE:
       return produce(state, (draft) => {
-        const indexOf = state.findIndex((item) => item.id === action.id.id)
+        const indexOf = state.findIndex((item) => item.id === action.id)
         if (indexOf !== -1) {
           draft.splice(indexOf, 1);
         }

@@ -17,41 +17,15 @@ export const ButtonLoadMore = styled.div`
       font-weight: bold;
       cursor:pointer;
 `;
-export const ContainerBody = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 50px;
-  .card{
-    margin:30px 10px;
-    max-width: 250px;
-    .border{
-      border-bottom: 2px solid var(--red);
-    }
-    div{
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      p{
-        margin: 0px;
-        color: var(--black1);
-        font-weight:bold;
-      }
-    }
-   
-  }
 
-  @media(max-width:916px){
-    justify-content: space-around;
-  .header{
-    margin-top:50px;
-  }
-  }
-`;
 export const ContainerContent = styled.div`
   margin-top:5%;
   width:100%;
   min-height:500px;
+  .center{
+    display:flex;
+    justify-content:center;
+  }
   .header{
     display: flex;
     justify-content: space-between;
@@ -80,6 +54,8 @@ export const ContainerContent = styled.div`
   button{
     margin: 0 1rem;
   }
-
+.pointer{
+  cursor:pointer;
+}
 `;
 

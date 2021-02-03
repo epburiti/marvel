@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 
-import { loadFailure, loadHeroesSuccess } from './actions';
+import { loadHeroesSuccess, loadHeroesFail } from './actions';
 import api from '../../../Services/api';
 
 export function* getHeroes({ offset, limit, orderBy }) {
@@ -12,6 +12,7 @@ export function* getHeroes({ offset, limit, orderBy }) {
     yield put(loadHeroesSuccess(myData));
   } catch (err) {
     console.error(err)
+    yield put(loadHeroesFail());
     alert("Houve ume erro");
   }
 }

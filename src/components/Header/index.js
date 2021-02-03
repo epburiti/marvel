@@ -13,9 +13,9 @@ function Header() {
   return (
     <Container>
       <img src={Logo} alt="logo Marvel" srcSet={`
-    ${Logo1}, 
-    ${Logo2},
-    ${Logo3},
+      ${Logo1}, 
+      ${Logo2},
+      ${Logo3},
   `} />
       <h1>Explore o Universo</h1>
       <p>Mergulhe No Dominio Deslumbrante de todos de todos os personagens clássicos que voce ama - e aqueles que você descobrira em breve</p>
